@@ -16,13 +16,24 @@ library(MASS)
 rm(list = ls())
 
 # -------------------------------------
-# Core Function: Transport samples from MSN to standard normal
+# Core Function: Transport map from the d dimensional MSN to d dimensional multivariate standard normal
+
+# n = number of points to sample for visualisation, 
+# xi = location parameter of the multivariate skew normal
+# Omega = scale parameter
+# alpha = skewness
+# psi = specific vector (of length d) for which it is of interest to obtain the transformation
 # -------------------------------------
+
+
 ot_msn <- function(n, xi, Omega, alpha, psi) {
-  d <- length(alpha)
+  d <- length(alpha) 
 
   # Generate samples from multivariate skew normal
   samples <- rmsn(n, xi, Omega = Omega, alpha = alpha)
+  
+  # fix the first value as the value of interest
+  samples[1, ] <- psi
 
   # Delta and transformation matrix Q
   delta <- Omega %*% (alpha / sqrt(1 + c(t(alpha) %*% Omega %*% alpha)))
@@ -31,7 +42,6 @@ ot_msn <- function(n, xi, Omega, alpha, psi) {
   if (det(Q) < 0) Q[, 1] <- -Q[, 1]
 
   # Centered samples with MAP point injected
-  samples[1, ] <- psi
   centered <- t(t(samples) - xi)
   Z <- centered %*% Q
 
