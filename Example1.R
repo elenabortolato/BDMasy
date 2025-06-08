@@ -491,9 +491,11 @@ results12=rbind(
 )
 results6[is.nan(results6)]=0
 results6[1<(results6)]=1
- 
-matplot((t(results6)), type="l",axes=F, col=c("#E55","#69B126","#E71", "#F9E442",8, "#0092B2" ),lty=1, ylab="BDM",
-        main="n=6")
+par(mar=c(4,4,1,1))
+par(mfrow=c(1,1))
+matplot((t(results6)), type="l",axes=F, col=c("#E55","#69B126","#E71", "#F9E442",8,
+                                              "#0092B2" ),lty=1, ylab="BDM",
+        main="", xlab= TeX("$\\theta$"))
 axis(1, 1:8,theta00)
 axis(2,seq(0,1, by=0.1))
 legend("bottomright", col=c("#E55","#69B126","#E71", "#F9E442",8, "#0092B2" ),
@@ -502,6 +504,37 @@ legend("bottomright", col=c("#E55","#69B126","#E71", "#F9E442",8, "#0092B2" ),
        legend = c("HOrder","IGamma","IOrder",
                                           "SKS", "SKS-num", "SN"), cex=0.7)
 
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(latex2exp)
+
+# Assuming 'results6' is a matrix with dimensions [methods x theta]
+methods <- c("HOrder", "IGamma", "IOrder", "SKS", "SKS-num", "SN")
+#theta00 <- c(...)  # replace with actual values
+
+# Convert to data frame for ggplot
+df <- as.data.frame(t(results6))
+colnames(df) <- methods
+df$theta <- theta00  # set theta as x-axis variable
+library(tidyverse)
+# Convert to long format
+df_long <- df %>%
+  pivot_longer(cols = all_of(methods), names_to = "Method", values_to = "BDM")
+
+# Plot
+ggplot(df_long, aes(x = theta, y = BDM, color = Method)) +
+  geom_line(size = 0.6) +
+  scale_color_manual(values = c("#E55","#69B126","#E71", "#F9E442","gray20", "#0092B2")) +
+  scale_x_continuous(breaks = theta00) +
+  scale_y_continuous(breaks = seq(0,1, by=0.1)) +
+  labs(
+    x = TeX("$\\theta$"),
+    y = "BDM",
+    color = NULL
+  ) +
+  theme_classic( ) +
+  theme(legend.position = "right")
 
 results12[is.nan(results12)]=0
 results12[1<(results12)]=1
@@ -512,12 +545,47 @@ axis(2,seq(0,1, by=0.1))
 legend("bottomright",  col=c("#E55","#69B126","#E71", "#F9E442",8, "#0092B2" ),lty=1,bty="n", legend = c("HOrder","IGamma","IOrder",
                                                                 "SKS", "SKS-num", "SN"), cex=0.7)
 
+
+
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(latex2exp)
+
+# Assuming 'results6' is a matrix with dimensions [methods x theta]
+methods <- c("HOrder", "IGamma", "IOrder", "SKS", "SKS-num", "SN")
+#theta00 <- c(...)  # replace with actual values
+
+# Convert to data frame for ggplot
+df <- as.data.frame(t(results12))
+colnames(df) <- methods
+df$theta <- theta00  # set theta as x-axis variable
+library(tidyverse)
+# Convert to long format
+df_long <- df %>%
+  pivot_longer(cols = all_of(methods), names_to = "Method", values_to = "BDM")
+
+# Plot
+ggplot(df_long, aes(x = theta, y = BDM, color = Method)) +
+  geom_line(size = 0.6) +
+  scale_color_manual(values = c("#E55","#69B126","#E71", "#F9E442","gray20", "#0092B2")) +
+  scale_x_continuous(breaks = theta00) +
+  scale_y_continuous(breaks = seq(0,1, by=0.1)) +
+  labs(
+    x = TeX("$\\theta$"),
+    y = "BDM",
+    color = NULL
+  ) +
+  theme_classic( ) +
+  theme(legend.position = "right")
 matplot((t(results12)), type="l",axes=F, col=5:1,lty=5:1, ylab="BDM",
         main="n=12")
 axis(1, 1:8,theta00)
 axis(2,seq(0,1, by=0.1))
 legend("bottomright", col=c(2,5,3,8,"violet",8),lty=1,bty="n", legend = c("HOrder","IGamma","IOrder",
                                                                           "SKS", "SKS-num"), cex=0.7)
+
+
 
 results=cbind(rbind(
     BDM_IO_A,
@@ -859,6 +927,45 @@ results20[is.nan(results20)]=0
 results20[1<(results20)]=1
 matplot((t(results20)), type="l",axes=F,  col=c("#E55","#69B126","#E71", "#F9E442",8, "#0092B2" ),lty=1, ylab="BDM",
         main="n=20")
+
+
+
+# Assuming 'results6' is a matrix with dimensions [methods x theta]
+methods <- c("HOrder", "IGamma", "IOrder", "SKS", "SKS-num", "SN")
+#theta00 <- c(...)  # replace with actual values
+
+# Convert to data frame for ggplot
+df <- as.data.frame(t(results20))
+colnames(df) <- methods
+df$theta <- theta00  # set theta as x-axis variable
+library(tidyverse)
+# Convert to long format
+df_long <- df %>%
+  pivot_longer(cols = all_of(methods), names_to = "Method", values_to = "BDM")
+
+# Plot
+ggplot(df_long, aes(x = theta, y = BDM, color = Method)) +
+  geom_line(size = 0.6) +
+  scale_color_manual(values = c("#E55","#69B126","#E71", "#F9E442","gray20", "#0092B2")) +
+  scale_x_continuous(breaks = theta00) +
+  scale_y_continuous(breaks = seq(0,1, by=0.1)) +
+  labs(
+    x = TeX("$\\theta$"),
+    y = "BDM",
+    color = NULL
+  ) +
+  theme_classic( ) +
+  theme(legend.position = "right")
+matplot((t(results12)), type="l",axes=F, col=5:1,lty=5:1, ylab="BDM",
+        main="n=12")
+axis(1, 1:8,theta00)
+axis(2,seq(0,1, by=0.1))
+legend("bottomright", col=c(2,5,3,8,"violet",8),lty=1,bty="n", legend = c("HOrder","IGamma","IOrder",
+                                                                          "SKS", "SKS-num"), cex=0.7)
+
+
+
+
 axis(1, 1:8,theta00)
 axis(2,seq(0,1, by=0.1))
 legend("bottomright",  col=c("#E55","#69B126","#E71", "#F9E442",8, "#0092B2" ),lty=1,bty="n", legend = c("HOrder","IGamma","IOrder",
@@ -881,6 +988,42 @@ axis(1, 1:8,theta00)
 axis(2,seq(0,1, by=0.1))
 legend("bottomright",  col=c("#E55","#69B126","#E71", "#F9E442",8, "#0092B2" ),lty=1,bty="n", legend = c("HOrder","IGamma","IOrder",
                                                                                                          "SKS", "SKS-num", "SN"), cex=0.7)
+
+
+# Assuming 'results6' is a matrix with dimensions [methods x theta]
+methods <- c("HOrder", "IGamma", "IOrder", "SKS", "SKS-num", "SN")
+#theta00 <- c(...)  # replace with actual values
+
+# Convert to data frame for ggplot
+df <- as.data.frame(t(results40))
+colnames(df) <- methods
+df$theta <- theta00  # set theta as x-axis variable
+library(tidyverse)
+# Convert to long format
+df_long <- df %>%
+  pivot_longer(cols = all_of(methods), names_to = "Method", values_to = "BDM")
+
+# Plot
+ggplot(df_long, aes(x = theta, y = BDM, color = Method)) +
+  geom_line(size = 0.6) +
+  scale_color_manual(values = c("#E55","#69B126","#E71", "#F9E442","gray20", "#0092B2")) +
+  scale_x_continuous(breaks = theta00) +
+  scale_y_continuous(breaks = seq(0,1, by=0.1)) +
+  labs(
+    x = TeX("$\\theta$"),
+    y = "BDM",
+    color = NULL
+  ) +
+  theme_classic( ) +
+  theme(legend.position = "right")
+matplot((t(results12)), type="l",axes=F, col=5:1,lty=5:1, ylab="BDM",
+        main="n=12")
+axis(1, 1:8,theta00)
+axis(2,seq(0,1, by=0.1))
+legend("bottomright", col=c(2,5,3,8,"violet",8),lty=1,bty="n", legend = c("HOrder","IGamma","IOrder",
+                                                                          "SKS", "SKS-num"), cex=0.7)
+
+
 
 matplot((t(results40)), type="l",axes=F, col=c(2,3,5,"violet",8),lty=1, ylab="BDM",
         main="n=40")
